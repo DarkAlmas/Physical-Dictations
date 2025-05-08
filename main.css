@@ -25,6 +25,7 @@ nav ul {
     display: flex;
     justify-content: center;
     gap: 20px;
+    flex-wrap: nowrap; /* Предотвращаем перенос элементов */
 }
 
 nav ul li {
@@ -97,8 +98,11 @@ footer {
 /* Адаптивность */
 @media (max-width: 600px) {
     nav ul {
-        flex-direction: column;
-        gap: 10px;
+        gap: 17px; /* Уменьшаем отступы между элементами */
+        flex-wrap: nowrap; /* Гарантируем, что элементы останутся в одну строку */
+    }
+    nav ul li a {
+        font-size: 16px; /* Уменьшаем размер шрифта на мобильных */
     }
     header h1 {
         font-size: 20px;
