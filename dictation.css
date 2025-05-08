@@ -1,0 +1,57 @@
+/* Стили для списка диктантов */
+.dictations_list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* Стили для каждого диктанта */
+.dictation {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dictation:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Стили для заголовка диктанта (например, "Диктант 6") */
+.dictation_title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #1e1e1e;
+}
+
+/* Стили для названия диктанта (например, "Электрический заряд") */
+.dictation_name {
+    margin: 10px 0 0;
+    font-size: 16px;
+    color: #333333;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .dictations_list {
+        padding: 10px;
+    }
+
+    .dictation {
+        padding: 15px;
+    }
+
+    .dictation_title {
+        font-size: 16px;
+    }
+
+    .dictation_name {
+        font-size: 14px;
+    }
+}

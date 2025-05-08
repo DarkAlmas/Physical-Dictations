@@ -1,0 +1,116 @@
+/* Стили для всего сайта */
+body {
+    background-color: #d3d3d3; /* Серый фон */
+    margin: 0; /* Убираем стандартные отступы */
+}
+
+/* Стили для шапки */
+header {
+    background-color: #1e1e1e;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ffd700; /* Цвет при наведении */
+}
+
+nav ul li a.active {
+    color: #ffd700; /* Подсветка активной страницы */
+    font-weight: bold;
+}
+
+/* Стили для основного контента */
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Стили для футера */
+footer {
+    background-color: #1e1e1e;
+    color: #f8f8f8;
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-content p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.social-links {
+    margin: 15px 0;
+}
+
+.social-links a {
+    color: #ffd700;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.social-links a:hover {
+    color: #ffffff;
+}
+
+.copyright {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+    header h1 {
+        font-size: 20px;
+    }
+    main {
+        padding: 10px;
+    }
+    footer {
+        padding: 20px 10px;
+    }
+    .social-links a {
+        margin: 0 10px;
+        font-size: 14px;
+    }
+}
