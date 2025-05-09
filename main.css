@@ -26,6 +26,8 @@ nav ul {
     justify-content: center;
     gap: 20px;
     flex-wrap: nowrap; /* Предотвращаем перенос элементов */
+    overflow-x: auto; /* Горизонтальная прокрутка на мобильных */
+    -webkit-overflow-scrolling: touch; /* Плавная прокрутка на iOS */
 }
 
 nav ul li {
@@ -50,7 +52,7 @@ nav ul li a.active {
 
 /* Стили для основного контента */
 main {
-    padding: 20px;
+    padding: 17px;
     max-width: 800px;
     margin: 0 auto;
 }
@@ -71,7 +73,7 @@ footer {
 
 .footer-content p {
     margin: 10px 0;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .social-links {
@@ -95,26 +97,247 @@ footer {
     opacity: 0.8;
 }
 
-/* Адаптивность */
+/* Стили для списка диктантов */
+.dictations_list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.dictation {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+}
+
+.dictation:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dictation_title {
+    font-size: 1.2em;
+    margin: 0 0 5px 0;
+    color: #1e1e1e;
+}
+
+.dictation_name {
+    font-size: 1em;
+    margin: 0;
+    color: #555;
+}
+
+/* Стили для содержимого диктанта */
+.dictation_content {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fbfbfb;
+    border-radius: 8px;
+}
+
+.dictation_content p,
+.dictation_content li {
+    font-size: 16px;
+}
+
+/* Стили для списков */
+.dictation_section ul {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.dictation_section ul li {
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+/* Стили для формул (MathJax) */
+mjx-container {
+    font-size: 1em !important; /* Базовый размер формул */
+}
+
+/* Стили для примеров задач */
+.example-task {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #cacaca !important; /* Исправлен синтаксис !important */
+    border-left: 5px solid #5a5a5a;
+    border-radius: 10px;
+}
+
+.example-task h5 {
+    margin-top: 0;
+    font-size: 1.1em;
+    color: #5a5a5a;
+}
+
+.example-task p {
+    margin: 8px 0;
+    font-size: 1em;
+}
+
+/* Адаптивность для мобильных (увеличение текста на маленьких экранах) */
 @media (max-width: 600px) {
     nav ul {
         gap: 17px; /* Уменьшаем отступы между элементами */
         flex-wrap: nowrap; /* Гарантируем, что элементы останутся в одну строку */
     }
-    nav ul li a {
-        font-size: 16px; /* Уменьшаем размер шрифта на мобильных */
-    }
+
     header h1 {
         font-size: 20px;
     }
+
+    nav ul li a {
+        font-size: 16px;
+    }
+
     main {
         padding: 10px;
     }
+
+    .dictation_title {
+        font-size: 1.1em;
+    }
+
+    .dictation_name {
+        font-size: 0.9em;
+    }
+
+    mjx-container {
+        font-size: 1.2em !important;
+    }
+
+    .example-task h5 {
+        font-size: 1em;
+    }
+
+    .example-task p {
+        font-size: 0.9em;
+    }
+
+    .dictation_section ul li {
+        font-size: 0.9em;
+    }
+
     footer {
         padding: 20px 10px;
     }
+
+    .footer-content p {
+        font-size: 14px;
+    }
+
     .social-links a {
         margin: 0 10px;
         font-size: 14px;
+    }
+
+    .copyright {
+        font-size: 10px;
+    }
+}
+
+/* Адаптивность для больших экранов (уменьшение текста) */
+@media (min-width: 801px) and (max-width: 1200px) {
+    header h1 {
+        font-size: 22px;
+    }
+
+    nav ul li a {
+        font-size: 15px;
+    }
+
+    mjx-container {
+        font-size: 1.2em !important;
+    }
+
+    .dictation_title {
+        font-size: 1.15em;
+    }
+
+    .dictation_name {
+        font-size: 0.95em;
+    }
+
+    .example-task h5 {
+        font-size: 1.05em;
+    }
+
+    .example-task p {
+        font-size: 0.95em;
+    }
+
+    .dictation_section ul li {
+        font-size: 0.95em;
+    }
+
+    .footer-content p {
+        font-size: 16px;
+    }
+
+    .social-links a {
+        font-size: 15px;
+    }
+
+    .copyright {
+        font-size: 11px;
+    }
+    
+    .dictation_content p,
+    .dictation_content li {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 1201px) {
+    header h1 {
+        font-size: 20px;
+    }
+
+    nav ul li a {
+        font-size: 14px;
+    }
+
+    mjx-container {
+        font-size: 2em !important;
+    }
+
+    .dictation_title {
+        font-size: 1.1em;
+    }
+
+    .dictation_name {
+        font-size: 0.9em;
+    }
+
+    .example-task h5 {
+        font-size: 1em;
+    }
+
+    .example-task p {
+        font-size: 0.9em;
+    }
+
+    .dictation_section ul li {
+        font-size: 0.9em;
+    }
+
+    .footer-content p {
+        font-size: 14px;
+    }
+
+    .social-links a {
+        font-size: 14px;
+    }
+
+    .copyright {
+        font-size: 10px;
+    }
+    
+    .dictation_content p,
+    .dictation_content li {
+        font-size: 10px;
     }
 }
