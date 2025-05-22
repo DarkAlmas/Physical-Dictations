@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dictations = data.dictations;
             console.log('JSON загружен, найдено диктантов:', dictations.length);
 
-            // Обработчик кнопок
+            // Обработчик кнопок с событием GA4
             buttons.forEach(button => {
                 button.addEventListener('click', () => {
                     console.log('Кнопка нажата:', button.parentElement.dataset.dictationId);
@@ -51,6 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.error('Диктант не найден:', dictationId);
                         return;
                     }
+                    // Отправляем событие test_started
+                    gtag('event', 'test_started', {
+                        'dictation_id': dictationId
+                    });
                     testTitle.textContent = `Тест по формулам: ${currentDictation.title}`;
                     questions = generateQuestions(currentDictation);
                     currentQuestionIndex = 0;
@@ -110,11 +114,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (currentQuestionIndex >= questions.length) {
                     testContent.innerHTML = `
                         <p>Тест завершён! Ваш результат: ${score}/${questions.length}</p>
-                        <p>${score === questions.length ? 'Браво, это правильный ответ! 🌟' : 'Неплохо, но попробуй ещё раз! 😏'}</p>
+                        <p>${score === questions.length ? 'Браво, физик-гуру! 🌟' : 'Неплохо, но попробуй ещё раз! 😏'}</p>
                     `;
                     testProgress.innerHTML = '';
                     testFeedback.innerHTML = '';
                     submitButton.style.display = 'none';
+                    // Отправляем событие test_completed
+                    gtag('event', 'test_completed', {
+                        'dictation_id': currentDictation.id,
+                        'score': score,
+                        'total_questions': questions.length
+                    });
                     MathJax.typeset();
                     return;
                 }
@@ -141,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 MathJax.typeset();
             }
 
-            // Обработчик ответа
+            // Обработчик ответа с событием GA4
             submitButton.onclick = () => {
                 const selected = testContent.querySelector('input[name="formula"]:checked');
                 if (!selected) {
@@ -151,7 +161,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const userAnswer = selected.value;
                 const question = questions[currentQuestionIndex];
-                if (userAnswer === question.correctAnswer) {
+                const isCorrect = userAnswer === question.correctAnswer;
+                // Отправляем событие test_answer_submitted
+                gtag('event', 'test_answer_submitted', {
+                    'dictation_id': currentDictation.id,
+                    'question_number': currentQuestionIndex + 1,
+                    'is_correct': isCorrect
+                });
+
+                if (isCorrect) {
                     score++;
                     testFeedback.innerHTML = '<p style="color: green;">Правильно! Ты молодец! 🚀</p>';
                 } else {
@@ -167,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     currentQuestionIndex++;
                     showQuestion();
-                }, 2000); // Следующий вопрос через 2 секунды
+                }, 2000);
             };
 
             // Сброс теста
@@ -175,6 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 testContent.innerHTML = '';
                 testProgress.innerHTML = '';
                 testFeedback.innerHTML = '';
+                testTitle.textContent = '';
                 submitButton.disabled = true;
                 submitButton.style.display = 'block';
                 questions = [];

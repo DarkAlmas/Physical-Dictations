@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="dictation.css">
     <!-- Подключение MathJax для формул -->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C7B77S7MGH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        
+        gtag('config', 'G-C7B77S7MGH');
+    </script>
     <script src="formula-test.js" defer></script>
 </head>
 <body>
@@ -53,7 +62,7 @@
         <div id="formula-test-modal" class="modal">
             <div class="modal-content">
                 <span class="close-button">×</span>
-                <h3 id="test-title">Тест по формулам</h3>
+                <h3 id="test-title"></h3>
                 <div id="test-progress"></div>
                 <div id="test-content"></div>
                 <button id="submit-formula" disabled>Ответить</button>
@@ -73,7 +82,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript для обработки хэшей и загрузки JSON с кэшированием -->
+    <!-- JavaScript для обработки хэшей, загрузки JSON и событий GA4 -->
     <script>
         // Функция для рендеринга контента диктанта
         function renderDictation(dictation) {
@@ -226,7 +235,7 @@
                 });
         }
 
-        // Обработчик кликов по div.dictation
+        // Обработчик кликов по div.dictation с событием GA4
         document.querySelectorAll('.dictation').forEach(div => {
             div.addEventListener('click', function(event) {
                 // Игнорируем клик, если он на кнопке теста
@@ -234,6 +243,10 @@
                     return;
                 }
                 console.log('Клик по диктанту:', this.dataset.dictationId);
+                // Отправляем событие в GA4
+                gtag('event', 'dictation_selected', {
+                    'dictation_id': this.dataset.dictationId
+                });
                 const hash = this.dataset.href;
                 if (hash) {
                     window.location.hash = hash;
@@ -248,6 +261,10 @@
                         return;
                     }
                     console.log('Клавиша по диктанту:', this.dataset.dictationId);
+                    // Отправляем событие в GA4
+                    gtag('event', 'dictation_selected', {
+                        'dictation_id': this.dataset.dictationId
+                    });
                     const hash = this.dataset.href;
                     if (hash) {
                         window.location.hash = hash;
