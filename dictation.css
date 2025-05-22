@@ -1,4 +1,4 @@
-/* Стили для списка диктантов */
+/* dictation.css - Версия с восстановленным padding: 15px для dictation_content (22 мая 2025) */
 .dictations_list {
     display: flex;
     flex-direction: column;
@@ -8,13 +8,13 @@
     padding: 20px 0;
 }
 
-/* Стили для каждого диктанта */
 .dictation {
     background-color: #ffffff;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
 }
 
 .dictation:hover {
@@ -22,7 +22,6 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-/* Стили для заголовка диктанта */
 .dictation_title {
     margin: 0;
     font-size: 18px;
@@ -30,15 +29,13 @@
     color: #1e1e1e;
 }
 
-/* Стили для названия диктанта */
 .dictation_name {
     margin: 10px 0 0;
     font-size: 16px;
     color: #333333;
 }
 
-/* Стили для кнопки теста */
-.formula-test-button {
+.test-button {
     margin-top: 10px;
     padding: 8px 16px;
     background-color: #ffd700;
@@ -53,11 +50,10 @@
     position: relative;
 }
 
-.formula-test-button:hover {
+.test-button:hover {
     background-color: #ffeb3b;
 }
 
-/* Стили для модального окна */
 .modal {
     display: none;
     position: fixed;
@@ -68,11 +64,12 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     overflow: auto;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
     background-color: #ffffff;
-    margin: 5% auto;
     padding: 20px;
     border-radius: 8px;
     width: 90%;
@@ -93,6 +90,45 @@
     color: #ff0000;
 }
 
+#test-selection-modal {
+    display: none;
+}
+
+.test-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.test-option {
+    padding: 12px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    text-align: center;
+}
+
+.test-option:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.test-option:active {
+    transform: scale(0.95);
+}
+
+#formula-build-message {
+    color: #555;
+    font-size: 16px;
+    text-align: center;
+}
+
 #test-title {
     font-size: 18px;
     margin-bottom: 10px;
@@ -107,6 +143,7 @@
 .test-question {
     font-size: 16px;
     margin-bottom: 10px;
+    overflow-wrap: break-word;
 }
 
 .test-options {
@@ -118,16 +155,89 @@
 
 .test-options label {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
     font-size: 14px;
+    flex-wrap: wrap;
 }
 
 .formula-option {
     display: inline-block;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    font-size: 16px;
 }
 
-#submit-formula {
+.formula-build {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formula-target {
+    padding: 10px;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    align-items: flex-start;
+}
+
+.numerator, .denominator, .linear {
+    display: inline-flex;
+    gap: 5px;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.slot {
+    width: 40px;
+    height: 40px;
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.slot.filled {
+    border-style: solid;
+    border-color: #4CAF50;
+}
+
+.fraction-line {
+    height: 2px;
+    background-color: #333;
+    margin: 5px 0;
+    width: 100%;
+}
+
+.formula-variables {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.variable {
+    padding: 5px 10px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    cursor: move;
+    font-size: 16px;
+}
+
+.variable.dragging {
+    opacity: 0.5;
+}
+
+.operator {
+    font-size: 16px;
+    margin: 0 3px;
+}
+
+#submit-test {
     padding: 8px 16px;
     background-color: #4CAF50;
     border: none;
@@ -136,26 +246,78 @@
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s;
+    z-index: 110;
+    pointer-events: auto;
 }
 
-#submit-formula:disabled {
+#submit-test:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
 }
 
-#submit-formula:hover:not(:disabled) {
+#submit-test:hover:not(:disabled) {
     background-color: #45a049;
 }
 
-#test-feedback {
-    margin-top: 10px;
+.dictation_content {
+    margin-top: 20px;
+    padding: 15px !important;
+    background-color: #fbfbfb;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 20px auto;
+    box-sizing: border-box;
 }
 
-#test-feedback p {
-    font-size: 14px;
+.dictation_content p,
+.dictation_content li {
+    font-size: 16px;
+    overflow-wrap: break-word;
 }
 
-/* Адаптивность */
+.example-task {
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #cacaca !important;
+    border-left: 5px solid #5a5a5a;
+    border-radius: 10px;
+}
+
+.example-task h5 {
+    margin-top: 0;
+    font-size: 1.1em;
+    color: #5a5a5a;
+}
+
+.example-task p {
+    margin: 8px 0;
+    font-size: 1em;
+    overflow-wrap: break-word;
+}
+
+.example-task mjx-container {
+    display: block;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+mjx-container {
+    font-size: 1.1em !important;
+    max-width: 100%;
+}
+
+mjx-container, .formula-option mjx-container, .variable mjx-container, .slot mjx-container {
+    display: inline-block;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+body.no-scroll {
+    overflow: hidden;
+}
+
 @media (max-width: 600px) {
     .dictations_list {
         padding: 10px;
@@ -173,15 +335,19 @@
         font-size: 14px;
     }
 
-    .formula-test-button {
+    .test-button {
         font-size: 12px;
         padding: 6px 12px;
     }
 
     .modal-content {
-        margin: 10% auto;
         padding: 15px;
         width: 95%;
+    }
+
+    .dictation_content {
+        margin-top: 20px;
+        padding: 15px !important;
     }
 
     #test-title {
@@ -200,7 +366,51 @@
         font-size: 12px;
     }
 
-    #submit-formula {
+    .formula-option {
+        font-size: 14px;
+    }
+
+    .test-option {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    #formula-build-message {
+        font-size: 14px;
+    }
+
+    .example-task {
+        padding: 10px;
+    }
+
+    .example-task h5 {
+        font-size: 1em;
+    }
+
+    .example-task p {
+        font-size: 0.9em;
+    }
+
+    .variable {
+        font-size: 14px;
+    }
+
+    .slot {
+        width: 35px;
+        height: 35px;
+    }
+
+    .numerator, .denominator {
+        min-height: 25px;
+        padding: 4px;
+    }
+
+    .operator {
+        font-size: 14px;
+        margin: 0 2px;
+    }
+
+    #submit-test {
         font-size: 12px;
         padding: 6px 12px;
     }

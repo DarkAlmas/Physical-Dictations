@@ -6,18 +6,15 @@
     <title>Физические диктанты - Диктанты</title>
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="dictation.css">
-    <!-- Подключение MathJax для формул -->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-C7B77S7MGH"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        
-        gtag('config', 'G-C7B77S7MGH');
+        gtag('config', 'G-C7B77S7MGH', { 'debug_mode': true });
     </script>
-    <script src="formula-test.js" defer></script>
+    <script src="tests.js" defer></script>
 </head>
 <body>
     <header>
@@ -32,40 +29,48 @@
     </header>
     <main>
         <h2>Диктанты</h2>
+        <div id="error-display" style="color: red; margin: 10px 0; display: none;"></div>
         <div class="dictations_list">
             <div class="dictation" data-dictation-id="dictation6" data-href="#/dictation6" tabindex="0">
                 <h3 class="dictation_title">Диктант 6</h3>
                 <p class="dictation_name">Потенциал. Разность потенциалов. Потенциальная энергия. Работа электрического поля. Эквипотенциальные поверхности</p>
-                <button class="formula-test-button">Тест по формулам</button>
+                <button class="test-button">Пройти тест</button>
             </div>
             <div class="dictation" data-dictation-id="dictation7" data-href="#/dictation7" tabindex="0">
                 <h3 class="dictation_title">Диктант 7</h3>
                 <p class="dictation_name">Электромагнитная индукция и законы электромагнетизма</p>
-                <button class="formula-test-button">Тест по формулам</button>
+                <button class="test-button">Пройти тест</button>
             </div>
             <div class="dictation" data-dictation-id="dictation8" data-href="#/dictation8" tabindex="0">
                 <h3 class="dictation_title">Диктант 8</h3>
                 <p class="dictation_name">Колебания и волны</p>
-                <button class="formula-test-button">Тест по формулам</button>
+                <button class="test-button">Пройти тест</button>
             </div>
             <div class="dictation" data-dictation-id="dictation9" data-href="#/dictation9" tabindex="0">
                 <h3 class="dictation_title">Диктант 9</h3>
                 <p class="dictation_name">Квантовая физика. Релятивистская механика</p>
-                <button class="formula-test-button">Тест по формулам</button>
+                <button class="test-button">Пройти тест</button>
             </div>
         </div>
-
-        <!-- Контейнер для динамической загрузки контента -->
         <div id="dictation_content" class="dictation_content"></div>
-        
-        <!-- Модальное окно для теста -->
-        <div id="formula-test-modal" class="modal">
+        <div id="test-selection-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">×</span>
+                <h3>Выберите тест</h3>
+                <div class="test-selection">
+                    <button class="test-option" data-test-type="formula">Тест по формулам</button>
+                    <button class="test-option" data-test-type="letter">Тест по буквам</button>
+                    <p id="formula-build-message" style="color: #555; font-size: 16px;">Тест по сборке формулы в разработке</p>
+                </div>
+            </div>
+        </div>
+        <div id="test-modal" class="modal">
             <div class="modal-content">
                 <span class="close-button">×</span>
                 <h3 id="test-title"></h3>
                 <div id="test-progress"></div>
                 <div id="test-content"></div>
-                <button id="submit-formula" disabled>Ответить</button>
+                <button id="submit-test" disabled>Ответить</button>
                 <div id="test-feedback"></div>
             </div>
         </div>
@@ -81,27 +86,19 @@
             <p class="copyright">© 2025 Физические диктанты. Все права защищены.</p>
         </div>
     </footer>
-
-    <!-- JavaScript для обработки хэшей, загрузки JSON и событий GA4 -->
     <script>
-        // Функция для рендеринга контента диктанта
         function renderDictation(dictation) {
             if (!dictation) {
                 return '<p>Диктант не найден.</p>';
             }
-
             let html = `
                 <section class="dictation_section">
                     <h3>${dictation.title}</h3>
                     <h4>Теоретические основы</h4>
             `;
-
-            // Добавляем теорию с тире
             dictation.theory.forEach(paragraph => {
                 html += `<p>— ${paragraph}</p>`;
             });
-
-            // Добавляем формулы
             if (dictation.formulas && dictation.formulas.length > 0) {
                 html += `<h4>Формулы</h4>`;
                 dictation.formulas.forEach(formula => {
@@ -112,7 +109,6 @@
                             <p><strong>Описание:</strong> ${formula.description}</p>
                             <ul>
                     `;
-                    // Добавляем переменные с большими точками
                     formula.variables.forEach(variable => {
                         html += `
                             <li>• <span>\\( \\mathbf{${variable.symbol}} \\)</span>: ${variable.meaning} (${variable.purpose}). 
@@ -123,8 +119,6 @@
                     html += `</ul></div>`;
                 });
             }
-
-            // Добавляем примеры задач
             if (dictation.examples && dictation.examples.length > 0) {
                 html += `<h4>Примеры задач</h4>`;
                 dictation.examples.forEach((example, index) => {
@@ -137,37 +131,24 @@
                     `;
                 });
             }
-
-            // Добавляем вопросы для самопроверки
             html += `
                     <h4>Вопросы для самопроверки</h4>
                     <ul>
             `;
-
-            // Добавляем вопросы с цифрами
             dictation.questions.forEach((question, index) => {
                 html += `<li>${index + 1}. ${question}</li>`;
             });
-
             html += `
                     </ul>
                 </section>
             `;
-
             return html;
         }
-
-        // Функция загрузки данных с кэшированием
         function loadDictationData() {
             return new Promise((resolve, reject) => {
-                // Версия данных (измените при обновлении JSON)
                 const DATA_VERSION = '1.3.6.9.2';
-
-                // Проверяем, есть ли данные в localStorage
                 const cachedData = localStorage.getItem('dictationsData');
                 const cachedVersion = localStorage.getItem('dictationsDataVersion');
-
-                // Если данные есть и версия совпадает, используем кэш
                 if (cachedData && cachedVersion === DATA_VERSION) {
                     try {
                         const parsedData = JSON.parse(cachedData);
@@ -184,18 +165,13 @@
                     localStorage.removeItem('dictationsData');
                     localStorage.removeItem('dictationsDataVersion');
                 }
-
-                // Добавляем временную метку к URL, чтобы избежать кэширования браузером
                 const url = `dictations.json?_=${new Date().getTime()}`;
-
-                // Загружаем данные с сервера
                 fetch(url, { cache: 'no-store' })
                     .then(response => {
                         if (!response.ok) throw new Error('Ошибка загрузки данных: ' + response.statusText);
                         return response.json();
                     })
                     .then(data => {
-                        // Сохраняем данные и версию в localStorage
                         localStorage.setItem('dictationsData', JSON.stringify(data));
                         localStorage.setItem('dictationsDataVersion', DATA_VERSION);
                         console.log('Новые данные загружены и сохранены в кэш');
@@ -207,13 +183,10 @@
                     });
             });
         }
-
-        // Функция отображения контента с прокруткой
         function loadDictationContent() {
             const hash = window.location.hash || '#/dictation6';
             const dictationId = hash.replace('#/', '');
             const contentDiv = document.getElementById('dictation_content');
-
             loadDictationData()
                 .then(data => {
                     const dictation = data.dictations.find(d => d.id === dictationId);
@@ -234,16 +207,12 @@
                     console.error('Ошибка загрузки контента:', error);
                 });
         }
-
-        // Обработчик кликов по div.dictation с событием GA4
         document.querySelectorAll('.dictation').forEach(div => {
             div.addEventListener('click', function(event) {
-                // Игнорируем клик, если он на кнопке теста
-                if (event.target.closest('.formula-test-button')) {
+                if (event.target.closest('.test-button')) {
                     return;
                 }
                 console.log('Клик по диктанту:', this.dataset.dictationId);
-                // Отправляем событие в GA4
                 gtag('event', 'dictation_selected', {
                     'dictation_id': this.dataset.dictationId
                 });
@@ -252,16 +221,13 @@
                     window.location.hash = hash;
                 }
             });
-
-            // Поддержка клавиатуры
             div.addEventListener('keydown', function(event) {
                 if (event.key === 'Enter' || event.key === ' ') {
                     event.preventDefault();
-                    if (event.target.closest('.formula-test-button')) {
+                    if (event.target.closest('.test-button')) {
                         return;
                     }
                     console.log('Клавиша по диктанту:', this.dataset.dictationId);
-                    // Отправляем событие в GA4
                     gtag('event', 'dictation_selected', {
                         'dictation_id': this.dataset.dictationId
                     });
@@ -272,8 +238,6 @@
                 }
             });
         });
-
-        // Слушаем изменения хэша и загрузку страницы
         window.addEventListener('hashchange', loadDictationContent);
         window.addEventListener('load', loadDictationContent);
     </script>
