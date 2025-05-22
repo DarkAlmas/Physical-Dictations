@@ -419,7 +419,7 @@
                 },
                 {
                     "name": "Сила Ампера",
-                    "formula": "F_{\\text{A}} = B I \\Delta l \\sin \\theta",
+                    "formula": "F_{\\text{A}} = B I \\Delta l \\sin \\alpha",
                     "description": "Сила, действующая на проводник с током в магнитном поле.",
                     "variables": [
                         {
@@ -447,7 +447,7 @@
                             "unit": "Метр (м)"
                         },
                         {
-                            "symbol": "\\theta",
+                            "symbol": "\\alpha",
                             "meaning": "Угол",
                             "purpose": "Угол между проводником и магнитным полем.",
                             "unit": "Радиан (рад)"
@@ -456,7 +456,7 @@
                 },
                 {
                     "name": "Сила Лоренца",
-                    "formula": "F_{\\text{L}} = |q| v B \\sin \\theta",
+                    "formula": "F_{\\text{L}} = |q| v B \\sin \\alpha",
                     "description": "Сила, действующая на заряженную частицу в магнитном поле.",
                     "variables": [
                         {
@@ -484,7 +484,7 @@
                             "unit": "Тесла (Тл)"
                         },
                         {
-                            "symbol": "\\theta",
+                            "symbol": "\\alpha",
                             "meaning": "Угол",
                             "purpose": "Угол между скоростью и магнитным полем.",
                             "unit": "Радиан (рад)"
@@ -493,7 +493,7 @@
                 },
                 {
                     "name": "Магнитный поток",
-                    "formula": "\\phi = B S \\cos \\theta",
+                    "formula": "\\phi = B S \\cos \\alpha",
                     "description": "Магнитный поток через поверхность.",
                     "variables": [
                         {
@@ -515,7 +515,7 @@
                             "unit": "Квадратный метр (м²)"
                         },
                         {
-                            "symbol": "\\theta",
+                            "symbol": "\\alpha",
                             "meaning": "Угол",
                             "purpose": "Угол между нормалью к поверхности и магнитным полем.",
                             "unit": "Радиан (рад)"
@@ -580,7 +580,7 @@
                 },
                 {
                     "name": "Момент силы на контур",
-                    "formula": "M = B I S \\sin \\theta",
+                    "formula": "M = B I S \\sin \\alpha",
                     "description": "Момент силы, действующий на контур с током в магнитном поле.",
                     "variables": [
                         {
@@ -608,7 +608,7 @@
                             "unit": "Квадратный метр (м²)"
                         },
                         {
-                            "symbol": "\\theta",
+                            "symbol": "\\alpha",
                             "meaning": "Угол",
                             "purpose": "Угол между нормалью к контуру и магнитным полем.",
                             "unit": "Радиан (рад)"
