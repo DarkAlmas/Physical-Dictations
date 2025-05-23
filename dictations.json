@@ -743,7 +743,7 @@
                 },
                 {
                     "name": "Период колебаний",
-                    "formula": "T = 2\\pi \\sqrt{\\frac{m}{k}}",
+                    "formula": "T = 2\\pi \\sqrt{\\frac{k}{m}}",
                     "description": "Период колебаний пружинного маятника.",
                     "variables": [
                         {
